@@ -2,15 +2,21 @@ import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 
 import Main from '../layouts/Main';
-import Firms from '../pages/Firms';
-import Clients from '../pages/Clients';
+import Minimal from '../layouts/Minimal';
 import Dashboard from '../pages/Dashboard';
 import constants from '../constants';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import ForgotPassword from '../pages/Auth/ForgotPassword';
-import NotFound from '../pages/Errors/NotFound';
-import Minimal from '../layouts/Minimal';
+import NotFound from '../pages/Error/NotFound';
+import FirmList from '../pages/Firm';
+import FirmDetail from '../pages/Firm/Detail';
+import ClientList from '../pages/Client';
+import ClientDetail from '../pages/Client/Detail';
+import EmployeeList from '../pages/Employee';
+import EmployeeDetail from '../pages/Employee/Detail';
+import RoleList from '../pages/Role';
+import PermissionList from '../pages/Permission/PermissionList';
 
 const AppRouter = () => {
   return useRoutes([
@@ -24,11 +30,59 @@ const AppRouter = () => {
         },
         {
           path: constants.urls.FIRMS,
-          element: <Firms />,
+          children: [
+            {
+              index: true,
+              element: <FirmList />,
+            },
+            {
+              path: constants.urls.FIRM_DETAIL,
+              element: <FirmDetail />,
+            },
+          ],
         },
         {
           path: constants.urls.CLIENTS,
-          element: <Clients />,
+          children: [
+            {
+              index: true,
+              element: <ClientList />,
+            },
+            {
+              path: constants.urls.CLIENT_DETAIL,
+              element: <ClientDetail />,
+            },
+          ],
+        },
+        {
+          path: constants.urls.EMPLOYEES,
+          children: [
+            {
+              index: true,
+              element: <EmployeeList />,
+            },
+            {
+              path: constants.urls.EMPLOYEE_DETAIL,
+              element: <EmployeeDetail />,
+            },
+          ],
+        },
+        {
+          path: constants.urls.ROLES,
+          children: [
+            {
+              index: true,
+              element: <RoleList />,
+            },
+            {
+              path: constants.urls.ROLE_PERMISSIONS,
+              element: <PermissionList />,
+            },
+          ],
+        },
+        {
+          path: constants.urls.PERMISSIONS,
+          element: <PermissionList />,
         },
       ],
     },

@@ -21,6 +21,11 @@ const Navlinks = (Sidebar) => () => {
           icon: <MailIcon />,
           path: constants.urls.FIRMS,
         },
+        {
+          name: 'Detail',
+          icon: <MailIcon />,
+          path: constants.urls.FIRM_DETAIL,
+        },
       ],
     },
     {
@@ -28,11 +33,53 @@ const Navlinks = (Sidebar) => () => {
       icon: <MailIcon />,
       children: [
         {
-          name: 'Clients List',
+          name: 'List',
           icon: <InboxIcon />,
           path: constants.urls.CLIENTS,
         },
+        {
+          name: 'Detail',
+          icon: <InboxIcon />,
+          path: constants.urls.CLIENT_DETAIL,
+        },
       ],
+    },
+    {
+      name: 'Employees',
+      icon: <MailIcon />,
+      children: [
+        {
+          name: 'List',
+          icon: <InboxIcon />,
+          path: constants.urls.EMPLOYEES,
+        },
+        {
+          name: 'Detail',
+          icon: <InboxIcon />,
+          path: constants.urls.EMPLOYEE_DETAIL,
+        },
+      ],
+    },
+    {
+      name: 'Roles',
+      icon: <MailIcon />,
+      children: [
+        {
+          name: 'List',
+          icon: <InboxIcon />,
+          path: constants.urls.ROLES,
+        },
+        {
+          name: 'Detail',
+          icon: <InboxIcon />,
+          path: constants.urls.ROLE_PERMISSIONS,
+        },
+      ],
+    },
+    {
+      name: 'Permissions',
+      icon: <MailIcon />,
+      path: constants.urls.PERMISSIONS,
     },
   ];
 

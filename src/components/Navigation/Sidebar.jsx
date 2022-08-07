@@ -100,19 +100,21 @@ const Sidebar = ({ navlinks }) => {
               return link?.children ? (
                 listItemButton
               ) : (
-                <NavLink to={link.path}>{listItemButton}</NavLink>
+                <NavLink to={link.path} exact>
+                  {listItemButton}
+                </NavLink>
               );
             })()}
             {link?.children &&
               link?.children.map((child, index) => (
                 <Collapse
                   key={index}
-                  in={subTabToggle[link.name]}
+                  in={sidebarToggle && subTabToggle[link.name]}
                   timeout="auto"
                   unmountOnExit
                 >
                   <List component="div" disablePadding>
-                    <NavLink to={child.path}>
+                    <NavLink to={child.path} exact>
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>{child.icon}</ListItemIcon>
                         <ListItemText primary={child.name} />

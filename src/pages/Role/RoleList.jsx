@@ -2,7 +2,7 @@ import React from 'react';
 import Heading from '../../components/Heading';
 import Table from '../../components/Table';
 
-const Firms = () => {
+export default () => {
   return (
     <Table
       height="800px"
@@ -12,5 +12,3 @@ const Firms = () => {
     />
   );
 };
-
-export default Firms;
