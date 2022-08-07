@@ -1,0 +1,11 @@
+.minimal-layout {
+  background: url('../assets/images/login-bg.jpg') no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+
+  .scrollable {
+    overflow: scroll;
+    height: 100%;
+  }
+}
