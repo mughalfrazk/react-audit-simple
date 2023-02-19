@@ -1,55 +1,52 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
-import Card from '../../../components/Card';
-import Grid from '../../../components/Grid';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
-import Typography from '../../../components/Typography';
+import useHttpClient from "../../../hooks/useHttpClient";
+import LoginUI from "./LoginUI";
 import constants from '../../../constants';
+import Button from '../../../components/Button';
 
 export default () => {
-  return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-      spacing="2"
-    >
-      <Grid item md={3} sm={12}>
-        <Card>
-          <div className="d-flex justify-content-between align-items-center px-2 pb-3">
-            <Typography variant="h5" padding="0" sx={{ fontWeight: 'bold' }}>
-              Login
-            </Typography>
-            <Button element="link" color="primary" to={constants.urls.REGISTER}>
-              Don't have an account?
-            </Button>
-          </div>
-          <Input
-            type="text"
-            name="email"
-            label="Email Address"
-            defaultValue="Hello World"
-          />
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            defaultValue="Hello World"
-          />
-          <div className="d-flex justify-content-end px-2">
-            <Button
-              element="link"
-              color="primary"
-              to={constants.urls.FORGOT_PASSWORD}
-            >
-              <small>Forgot password?</small>
-            </Button>
-          </div>
-          <Button variant="contained">Login</Button>
-        </Card>
-      </Grid>
-    </Grid>
-  );
+  const globalLoading = useSelector(state => state.local.globalLoading)
+  const {isLoading, request} = useHttpClient();
+
+  const initialValues = {
+    email: "",
+    password: "",
+  }
+
+  const validationSchema = yup.object({
+    email: yup
+      .string('Enter your email')
+      .email('Enter a valid email')
+      .required('Email is required'),
+    password: yup
+      .string('Enter your password')
+      .min(8, 'Password should be of minimum 8 characters length')
+      .required('Password is required'),
+  });
+
+  const onSubmit = async (values) => {
+    const res = await request.post(constants.apis.LOGIN, values);
+    console.log(res);
+  }
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit
+  })
+
+  const onLogin = async () => {
+    return await request.get("user/auth/whoami")
+  }
+
+  return <Fragment>
+    <LoginUI isLoading={isLoading} formik={formik} onLogin={onLogin} />
+    {/* <Button onClick={async () => {
+      await request.get("user/auth/whoami")
+    }}>Who am i</Button> */}
+  </Fragment>
 };

@@ -1,5 +1,5 @@
-import { Button, Typography } from '@mui/material';
 import React from 'react';
+import { Button, Typography, CircularProgress } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 
 export default ({
@@ -7,6 +7,7 @@ export default ({
   variant,
   color,
   element,
+  loading,
   margin = '0',
   padding = '8px 10px',
   sx,
@@ -29,12 +30,13 @@ export default ({
       ) : (
         <Button
           fullWidth
+          disabled={loading}
           variant={variant}
           color={color}
           sx={{ padding, margin, ...sx }}
           {...otherProps}
         >
-          {children}
+          {loading ? <CircularProgress color='white' size={25} /> : children}
         </Button>
       )}
     </div>

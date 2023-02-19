@@ -5,11 +5,12 @@ export default ({
   padding = '0 10px',
   width = '100%',
   sx,
+  helperText,
   ...otherProps
 }) => {
   return (
     <div style={{ padding }}>
-      <TextField sx={{ width, margin, ...sx }} {...otherProps} />
+      <TextField sx={{ width, margin, ...sx }} {...otherProps} helperText={helperText} />
     </div>
   );
 };

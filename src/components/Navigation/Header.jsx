@@ -53,7 +53,7 @@ const Header = () => {
           <MenuIcon />
         </IconButton>
         <NavLink to={constants.urls.INDEX}>
-          <Typography variant="h6" color="white" noWrap component="div">
+          <Typography variant="h6" sx={{ color: "#ffffff" }} noWrap component="div">
             Audit Simple
           </Typography>
         </NavLink>
