@@ -24,6 +24,7 @@ import { Drawer, DrawerHeader } from './MuiNavFunctions';
 const Sidebar = ({ navlinks }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const userDetail = useSelector(state => state.user.detail);
   const { sidebarToggle } = useSelector((state) => state.local);
 
   const [subTabToggle, setSubTabToggle] = useState({});
@@ -97,13 +98,13 @@ const Sidebar = ({ navlinks }) => {
                 </ListItemButton>
               );
 
-              return link?.children ? (
+              return (!link?.role || link?.role === userDetail?.role?.identifier) && (link?.children ? (
                 listItemButton
               ) : (
-                <NavLink to={link.path} exact>
+                <NavLink to={link.path} exact="true">
                   {listItemButton}
                 </NavLink>
-              );
+              ));
             })()}
             {link?.children &&
               link?.children.map((child, index) => (
@@ -114,7 +115,7 @@ const Sidebar = ({ navlinks }) => {
                   unmountOnExit
                 >
                   <List component="div" disablePadding>
-                    <NavLink to={child.path} exact>
+                    <NavLink to={child.path} exact="true">
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>{child.icon}</ListItemIcon>
                         <ListItemText primary={child.name} />

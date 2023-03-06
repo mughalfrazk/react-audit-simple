@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -6,7 +6,7 @@ import Sidebar from '../components/Navigation/Sidebar';
 import Header from '../components/Navigation/Header';
 import { Outlet } from 'react-router-dom';
 import { DrawerHeader } from '../components/Navigation/MuiNavFunctions';
-import { blueGrey, grey, cyan } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 
 const Main = () => {
   return (

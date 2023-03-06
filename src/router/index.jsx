@@ -17,12 +17,17 @@ import EmployeeList from '../pages/Employee';
 import EmployeeDetail from '../pages/Employee/Detail';
 import RoleList from '../pages/Role';
 import PermissionList from '../pages/Permission/PermissionList';
+import ProtectedRoute from './protected-route';
 
 const AppRouter = () => {
   return useRoutes([
     {
       path: constants.urls.INDEX,
-      element: <Main />,
+      element: (
+        <ProtectedRoute>
+          <Main />
+        </ProtectedRoute>
+      ),
       children: [
         {
           index: true,
@@ -36,7 +41,7 @@ const AppRouter = () => {
               element: <FirmList />,
             },
             {
-              path: constants.urls.FIRM_DETAIL,
+              path: constants.urls.FIRM_DETAIL(':id'),
               element: <FirmDetail />,
             },
           ],

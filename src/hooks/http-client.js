@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setGlobalError, setGlobalLoading } from "../redux/slices/local-slice";
+import { useAuth } from "../hooks/auth";
 
 export default () => {
   const dispatch = useDispatch();
+  const { session } = useAuth();
   const baseURL = process.env.REACT_APP_BASE_URL;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +15,7 @@ export default () => {
   const headers = () => {
     let requestHeaders = {};
     requestHeaders['Access-Control-Allow-Origin'] = '*';
+    if (!!session) requestHeaders['Authorization'] = `Bearer ${session.access_token}`
     return requestHeaders;
   }
 
@@ -31,7 +34,6 @@ export default () => {
     },
     err => {
       setIsLoading(false)
-      console.log(err?.response?.data)
       setError(err?.response?.data?.message)
       dispatch(setGlobalLoading(false))
       dispatch(setGlobalError(err?.response?.data?.message))
@@ -43,12 +45,10 @@ export default () => {
     req => {
       setIsLoading(false);
       dispatch(setGlobalLoading(false))
-      console.log(req.url + ' called...');
       return req;
     },
     err => {
       setIsLoading(false)
-      console.log(err?.response?.data)
       setError(err?.response?.data?.message)
       dispatch(setGlobalLoading(false))
       dispatch(setGlobalError(err?.response?.data?.message))

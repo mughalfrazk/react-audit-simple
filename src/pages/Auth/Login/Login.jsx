@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import useHttpClient from "../../../hooks/useHttpClient";
+import useHttpClient from "../../../hooks/http-client";
 import LoginUI from "./LoginUI";
 import constants from '../../../constants';
 import Button from '../../../components/Button';
+import { useAuth } from '../../../hooks/auth';
 
 export default () => {
-  const globalLoading = useSelector(state => state.local.globalLoading)
-  const {isLoading, request} = useHttpClient();
+  const { login } = useAuth();
+  const { isLoading, request } = useHttpClient();
 
   const initialValues = {
     email: "",
@@ -29,8 +29,8 @@ export default () => {
   });
 
   const onSubmit = async (values) => {
-    const res = await request.post(constants.apis.LOGIN, values);
-    console.log(res);
+    const {data} = await request.post(constants.apis.LOGIN, values);
+    login(data);
   }
 
   const formik = useFormik({
@@ -39,14 +39,10 @@ export default () => {
     onSubmit
   })
 
-  const onLogin = async () => {
-    return await request.get("user/auth/whoami")
-  }
-
   return <Fragment>
-    <LoginUI isLoading={isLoading} formik={formik} onLogin={onLogin} />
-    {/* <Button onClick={async () => {
-      await request.get("user/auth/whoami")
-    }}>Who am i</Button> */}
+    <LoginUI isLoading={isLoading} formik={formik} />
+    <Button onClick={async () => {
+      await request.get("auth/profile")
+    }}>Who am i</Button>
   </Fragment>
 };

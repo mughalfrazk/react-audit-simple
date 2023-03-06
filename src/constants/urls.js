@@ -6,7 +6,7 @@ export const urls = {
 
   INDEX: '/',
   FIRMS: '/firms',
-  FIRM_DETAIL: '/firms/:id',
+  FIRM_DETAIL: (id) => `/firms/${id}`,
   CLIENTS: '/clients',
   CLIENT_DETAIL: '/clients/:id',
   EMPLOYEES: '/employees',

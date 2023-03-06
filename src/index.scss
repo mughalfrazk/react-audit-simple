@@ -22,5 +22,14 @@ code {
 }
 
 a.active {
-  color: blue;
+  color: rgb(17, 61, 156);
+
+  svg {
+    color: rgb(17, 61, 156);
+  }
+}
+
+h6 {
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.54);
 }

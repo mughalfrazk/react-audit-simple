@@ -5,21 +5,21 @@ import { Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 
 const d_columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
+  { field: 'id', headerName: 'ID', flex: 1 },
+  { field: 'firstName', headerName: 'First name', flex: 1 },
+  { field: 'lastName', headerName: 'Last name', flex: 1 },
   {
     field: 'age',
     headerName: 'Age',
     type: 'number',
-    width: 90,
+    flex: 1
   },
   {
     field: 'fullName',
     headerName: 'Full name',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    flex: 1,
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
@@ -56,6 +56,7 @@ export default ({
           pageSize={pageSize}
           rowsPerPageOptions={rowsPerPageOptions}
           checkboxSelection
+          disableSelectionOnClick 
         />
       </div>
     </Fragment>
