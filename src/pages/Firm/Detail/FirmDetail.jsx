@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -10,6 +10,8 @@ import Heading from '../../../components/Heading';
 import Table from '../../../components/Table';
 import Button from '../../../components/Button';
 import Tabs from '../../../components/Tabs';
+import InfoList from '../../../components/InfoList/InfoList';
+import { testPlaceHolder } from '../../../services/utils/functions';
 
 const clientHeader = [
   {
@@ -85,6 +87,7 @@ export default () => {
   const { request } = useHttpClient();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.firm.selectedFirm);
+  const [infoList, setInfoList] = useState([]);
 
   const tabs = [
     {
@@ -116,30 +119,27 @@ export default () => {
     id && getFirmDetail(id);
   }, [id]);
 
+  useEffect(() => {
+    if (!!detail) setInfoList([
+      {
+        key: 'Name',
+        value: testPlaceHolder(detail?.name)
+      },
+      {
+        key: 'Abbreviation',
+        value: testPlaceHolder(detail?.abbreviation)
+      },
+      {
+        key: 'Workspace',
+        value: testPlaceHolder(detail?.workspace)
+      },
+    ])
+  }, [detail])
+
   return (
     <Fragment>
       <Heading>Firm Detail</Heading>
-      <div className="row align-items-baseline">
-        <div className="col-sm-2 text-end">
-          <h6 className="m-0">Name:</h6>
-        </div>
-        <div className="col-sm-10">
-          <h5>{detail?.name}</h5>
-        </div>
-        <div className="col-sm-2 text-end">
-          <h6 className="m-0">Abbreviation:</h6>
-        </div>
-        <div className="col-sm-10">
-          <h5>{detail?.abbreviation}</h5>
-        </div>
-        <div className="col-sm-2 text-end">
-          <h6 className="m-0">Workspace:</h6>
-        </div>
-        <div className="col-sm-10">
-          <h5>{detail?.workspace}</h5>
-        </div>
-      </div>
-      <hr />
+      <InfoList data={infoList} />
       <Tabs tabs={tabs} />
     </Fragment>
   );

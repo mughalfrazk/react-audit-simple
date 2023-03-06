@@ -54,7 +54,7 @@ const AppRouter = () => {
               element: <ClientList />,
             },
             {
-              path: constants.urls.CLIENT_DETAIL,
+              path: constants.urls.CLIENT_DETAIL(':id'),
               element: <ClientDetail />,
             },
           ],

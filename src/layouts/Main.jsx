@@ -6,7 +6,7 @@ import Sidebar from '../components/Navigation/Sidebar';
 import Header from '../components/Navigation/Header';
 import { Outlet } from 'react-router-dom';
 import { DrawerHeader } from '../components/Navigation/MuiNavFunctions';
-import { grey } from '@mui/material/colors';
+import { lightBlue } from '@mui/material/colors';
 
 const Main = () => {
   return (
@@ -14,7 +14,7 @@ const Main = () => {
       <CssBaseline />
       <Header />
       <Sidebar />
-      <Box component="main" bgcolor={grey[50]} sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" bgcolor={'#f6f8fb'} sx={{ flexGrow: 1, p: 3, height: '100vh' }}>
         <DrawerHeader />
         <Outlet />
       </Box>

@@ -8,7 +8,7 @@ export const urls = {
   FIRMS: '/firms',
   FIRM_DETAIL: (id) => `/firms/${id}`,
   CLIENTS: '/clients',
-  CLIENT_DETAIL: '/clients/:id',
+  CLIENT_DETAIL: (id) => `/clients/${id}`,
   EMPLOYEES: '/employees',
   EMPLOYEE_DETAIL: '/employees/:id',
   ROLES: '/roles',

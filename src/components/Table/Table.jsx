@@ -44,19 +44,22 @@ export default ({
   rowsPerPageOptions = [5],
   columns = d_columns,
   rows = d_rows,
-  title
+  title,
+  border,
+  backgroundColor = 'white'
 }) => {
   return (
     <Fragment>
       {title}
-      <div style={{ height, width, backgroundColor: "white" }}>
+      <div style={{ height, width, backgroundColor }}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={rowsPerPageOptions}
           checkboxSelection
-          disableSelectionOnClick 
+          disableSelectionOnClick
+          sx={{ border }}
         />
       </div>
     </Fragment>

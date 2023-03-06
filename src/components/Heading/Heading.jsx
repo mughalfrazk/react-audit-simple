@@ -1,9 +1,8 @@
 import { Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
 
 export default ({
   padding = '0 0 0',
-  margin = '0',
+  margin = '0 0 0.4rem',
   sx,
   children,
   ...otherProps
@@ -16,7 +15,7 @@ export default ({
       {...otherProps}
     >
       {children}
-      <Divider sx={{ marginBottom: '10px' }} />
+      {/* <hr style={{ opacity: 0.1, marginTop: '0.1rem', marginBottom: '0.4rem' }} /> */}
     </Typography>
   );
 };

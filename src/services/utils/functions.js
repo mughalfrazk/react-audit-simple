@@ -13,3 +13,7 @@ export function getFromLocalStorage(key) {
   }
   return parsed; 
 }
+
+export function testPlaceHolder(text) {
+  return !!text ? text : <i style={{ opacity: 0.4 }}>Undefined</i>
+}
