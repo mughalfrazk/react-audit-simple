@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   clientList: [],
-  selectedClient: null
+  selectedClient: null,
+  folders: []
 }
 
 export const clientSlice = createSlice({
@@ -14,11 +15,14 @@ export const clientSlice = createSlice({
     },
     setClientDetail: (state, { payload }) => {
       state.selectedClient = payload
+    },
+    setFolders: (state, { payload }) => {
+      state.folders = payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setClientsList, setClientDetail } = clientSlice.actions
+export const { setClientsList, setClientDetail, setFolders } = clientSlice.actions
 
 export default clientSlice.reducer

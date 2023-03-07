@@ -9,5 +9,6 @@ export const apis = {
   EMPLOYEE_DETAIL: (id) => `employee/${id}`,
 
   CLIENT_LIST: "company/clients",
-  CLIENT_DETAIL: (id) => `company/client/${id}`
+  CLIENT_DETAIL: (id) => `company/client/${id}`,
+  CLIENT_FOLDERS: (id) => `folder?client=${id}`,
 };

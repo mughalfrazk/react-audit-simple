@@ -5,12 +5,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import useHttpClient from '../../../hooks/http-client';
 import constants from '../../../constants';
-import { setClientDetail } from '../../../redux/slices/client-slice';
+import { setClientDetail, setFolders } from '../../../redux/slices/client-slice';
 import FileManager from '../../../components/FileManager';
 import Heading from '../../../components/Heading';
-import Table from '../../../components/Table';
-import Button from '../../../components/Button';
-import Tabs from '../../../components/Tabs';
 import InfoList from '../../../components/InfoList/InfoList';
 import { testPlaceHolder } from '../../../services/utils/functions';
 
@@ -18,7 +15,7 @@ export default () => {
   const { id } = useParams();
   const { request } = useHttpClient();
   const dispatch = useDispatch();
-  const detail = useSelector((state) => state.client.selectedClient);
+  const { selectedClient, folders } = useSelector((state) => state.client);
   const [infoList, setInfoList] = useState([]);
 
   const getFirmDetail = async (id) => {
@@ -26,29 +23,37 @@ export default () => {
     dispatch(setClientDetail(data));
   };
 
+  const getClientFolders = async (id) => {
+    const { data } = await request.get(constants.apis.CLIENT_FOLDERS(id))
+    dispatch(setFolders(data))
+  }
+
   useEffect(() => {
-    id && getFirmDetail(id);
+    if (id) {
+      getFirmDetail(id);
+      getClientFolders(id);
+    }
   }, [id]);
 
   useEffect(() => {
-    if (!!detail) setInfoList([
+    if (!!selectedClient) setInfoList([
       {
         key: 'Name',
-        value: testPlaceHolder(detail?.client?.name)
+        value: testPlaceHolder(selectedClient?.client?.name)
       },
       {
         key: 'Abbreviation',
-        value: testPlaceHolder(detail?.client?.abbreviation)
+        value: testPlaceHolder(selectedClient?.client?.abbreviation)
       }
     ])
-  }, [detail])
+  }, [selectedClient])
 
   return (
     <Fragment>
       <Heading>Client Detail</Heading>
-      <InfoList data={infoList} />
+      {infoList && <InfoList data={infoList} />}
       <Heading padding='1rem 0 0 0'>File Manager</Heading>
-      <FileManager />
+      {folders && <FileManager folders={folders} />}
     </Fragment>
   );
 };
