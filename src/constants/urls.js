@@ -10,7 +10,7 @@ export const urls = {
   CLIENTS: '/clients',
   CLIENT_DETAIL: (id) => `/clients/${id}`,
   EMPLOYEES: '/employees',
-  EMPLOYEE_DETAIL: '/employees/:id',
+  EMPLOYEE_DETAIL: (id) => `/employees/${id}`,
   ROLES: '/roles',
   ROLE_PERMISSIONS: '/roles/:id',
   PERMISSIONS: '/permissions'

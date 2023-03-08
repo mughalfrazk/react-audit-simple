@@ -67,7 +67,7 @@ const AppRouter = () => {
               element: <EmployeeList />,
             },
             {
-              path: constants.urls.EMPLOYEE_DETAIL,
+              path: constants.urls.EMPLOYEE_DETAIL(':id'),
               element: <EmployeeDetail />,
             },
           ],

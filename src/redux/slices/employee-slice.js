@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   employeeList: [],
-  selectedEmployee: null
+  selectedEmployee: null,
+  employeePermissions: []
 }
 
 export const employeeSlice = createSlice({
@@ -14,11 +15,14 @@ export const employeeSlice = createSlice({
     },
     setEmployeeDetail: (state, { payload }) => {
       state.selectedEmployee = payload
+    },
+    setEmployeePermissions: (state, { payload }) => {
+      state.employeePermissions = payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setEmployeesList, setEmployeeDetail } = employeeSlice.actions
+export const { setEmployeesList, setEmployeeDetail, setEmployeePermissions } = employeeSlice.actions
 
 export default employeeSlice.reducer

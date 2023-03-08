@@ -7,6 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import { useAuth } from '../../hooks/auth';
 import ConfirmationDialog from '../ConfirmationDialog';
+import Pill from '../Pill';
 
 const HeaderDropdown = ({ userDetail }) => {
   const { logout } = useAuth();
@@ -40,7 +41,8 @@ const HeaderDropdown = ({ userDetail }) => {
         show={showConfirmation}
         setShow={setShowConfirmation}
       />
-      <span className='pe-2' style={{ opacity: 0.6 }}>{userDetail?.email}</span>
+      <span><Pill />&nbsp;&nbsp;</span>
+      <span className='pe-2' style={{ opacity: 0.6 }}> {userDetail?.email}</span>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

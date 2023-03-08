@@ -40,7 +40,7 @@ const header = [
     renderCell: (params) => (
       <Button
         element="nav-link"
-        to={constants.urls.FIRM_DETAIL(0)}
+        to={constants.urls.EMPLOYEE_DETAIL(params.row?.id)}
         variant="primary"
       >
         <VisibilityIcon color="grey" />
