@@ -30,6 +30,7 @@ const Navlinks = (Sidebar) => () => {
       name: 'Employees',
       icon: <PeopleIcon />,
       path: constants.urls.EMPLOYEES,
+      role: 'admin'
     },
     // {
     //   name: 'Roles',

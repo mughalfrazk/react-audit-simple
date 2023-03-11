@@ -34,7 +34,7 @@ const clientHeader = [
     renderCell: (params) => (
       <Button
         element="nav-link"
-        to={constants.urls.FIRM_DETAIL(0)}
+        to={constants.urls.CLIENT_DETAIL(params.row?.client?.id)}
         variant="primary"
       >
         <VisibilityIcon color="grey" />
@@ -73,7 +73,7 @@ const employeeHeader = [
     renderCell: (params) => (
       <Button
         element="nav-link"
-        to={constants.urls.FIRM_DETAIL(0)}
+        to={constants.urls.EMPLOYEE_DETAIL(params.row?.id)}
         variant="primary"
       >
         <VisibilityIcon color="grey" />

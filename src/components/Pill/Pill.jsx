@@ -1,10 +1,19 @@
+import { useEffect, useState } from "react";
 import { Chip } from "@mui/material";
-import FaceIcon from '@mui/icons-material/Face';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import { lightBlue } from '@mui/material/colors';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import PersonIcon from '@mui/icons-material/Person';
 
-const Pill = ({ icon = <BadgeOutlinedIcon sx={'#fff'} />, label = 'Employee', color = '#fff', variant = "outlined" }) => {
-  return <Chip icon={icon} label={label} sx={{ color, paddingLeft: '0.4rem' }} variant={variant} />
+const Pill = ({ icon, label = 'Employee', color = '#fff', variant = "outlined" }) => {
+  const [pillIcon, setPillIcon] = useState(null);
+
+  useEffect(() => {
+    if (label === 'Super Admin') setPillIcon(<AdminPanelSettingsIcon style={{ color }} />)
+    else if (label === 'Admin') setPillIcon(<PersonIcon style={{ color }} />)
+    else setPillIcon(<AssignmentIndIcon style={{ color }} />)
+  }, [label])
+
+  return <Chip icon={pillIcon} label={label} sx={{ color, paddingLeft: '0.4rem' }} variant={variant} />
 }
 
 export default Pill;

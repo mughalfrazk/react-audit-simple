@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setGlobalError, setGlobalLoading } from "../redux/slices/local-slice";
 import { useAuth } from "../hooks/auth";
 
-export default () => {
+const useHttpClient = () => {
   const dispatch = useDispatch();
   const { session } = useAuth();
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -80,3 +80,5 @@ export default () => {
 
   return {isLoading, setIsLoading, error, setError, request};
 }
+
+export default useHttpClient;

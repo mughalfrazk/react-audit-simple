@@ -8,6 +8,8 @@ export default ({
   color,
   element,
   loading,
+  size,
+  onClick,
   margin = '0',
   padding = '8px 10px',
   sx,
@@ -33,6 +35,8 @@ export default ({
           disabled={loading}
           variant={variant}
           color={color}
+          size={size}
+          onClick={onClick}
           sx={{ padding, margin, ...sx }}
           {...otherProps}
         >

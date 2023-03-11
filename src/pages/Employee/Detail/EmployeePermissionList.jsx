@@ -1,13 +1,15 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import useHttpClient from '../../../hooks/http-client';
 import Table from '../../../components/Table';
 import Heading from '../../../components/Heading';
 import constants from '../../../constants';
-import { useDispatch } from 'react-redux';
 import { setEmployeePermissions } from '../../../redux/slices/employee-slice';
 import Button from '../../../components/Button';
+import AddPermission from './AddPermission';
 
 const permissionHeader = [
   // { field: 'id', headerName: 'ID', flex: 1 },
@@ -23,8 +25,10 @@ const permissionHeader = [
     flex: 1,
     renderCell: (params) => (
       <div>
-        <p className='m-0 me-1'>{params.row?.action?.name}</p>
-        <i className='text-secondary'><small>{params.row?.action?.description}</small></i>
+        <p className="m-0 me-1">{params.row?.action?.name}</p>
+        <i className="text-secondary">
+          <small>{params.row?.action?.description}</small>
+        </i>
       </div>
     ),
   },
@@ -45,27 +49,48 @@ const permissionHeader = [
   },
 ];
 
-const EmployeePermissionList = ({ employeeId, permissionsList }) => {
+const EmployeePermissionList = ({
+  role,
+  employeeId,
+  firmId,
+  permissionsList,
+}) => {
   const dispatch = useDispatch();
+  const [showAddPermission, setShowAddPermission] = useState(false);
   const { request } = useHttpClient();
 
-  const getEmployeePermissions = async (id) => {
+  const getEmployeePermissions = async (id, firm) => {
     const { data } = await request.get(
-      constants.apis.CLIENT_ASSIGNMENT_LIST(id)
+      constants.apis.CLIENT_ASSIGNMENT_LIST(id, firm)
     );
     dispatch(setEmployeePermissions(data));
   };
 
   useEffect(() => {
-    employeeId && getEmployeePermissions(employeeId);
-  }, [employeeId]);
+    if (role?.isSuperAdmin) {
+      employeeId && firmId && getEmployeePermissions(employeeId, firmId);
+    } else {
+      employeeId && getEmployeePermissions(employeeId, null);
+    }
+  }, [employeeId, firmId]);
 
   return (
-    <Table
-      columns={permissionHeader}
-      rows={permissionsList}
-      title={<Heading margin="1rem 0 0.4rem">Employee Permissions</Heading>}
-    />
+    <Fragment>
+      {showAddPermission && <AddPermission show={showAddPermission} setShow={setShowAddPermission} />}
+      <Table
+        columns={permissionHeader}
+        rows={permissionsList}
+        title={
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <Heading margin="1rem 0 0.4rem">Employee Permissions</Heading>
+            <Button variant="contained" size="small" onClick={() => setShowAddPermission(true)}>
+              <AddTwoToneIcon />
+              &nbsp;Add new permission&nbsp;&nbsp;
+            </Button>
+          </div>
+        }
+      />
+    </Fragment>
   );
 };
 

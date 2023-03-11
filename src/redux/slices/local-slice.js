@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   sidebarToggle: false,
   globalLoading: false,
-  globalError: ""
+  globalError: "",
 }
 
 export const localSlice = createSlice({

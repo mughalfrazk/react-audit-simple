@@ -14,6 +14,7 @@ const EmployeeDetail = () => {
   const { id } = useParams();
   const { request } = useHttpClient();
   const dispatch = useDispatch();
+  const { detail, role } = useSelector(state => state.user);
   const { selectedEmployee, employeePermissions } = useSelector((state) => state.employee);
   const [infoList, setInfoList] = useState([]);
 
@@ -51,7 +52,7 @@ const EmployeeDetail = () => {
     <Fragment>
       <Heading>Employee Detail</Heading>
       <InfoList data={infoList} />
-      <EmployeePermissionList employeeId={id} permissionsList={employeePermissions} />
+      {detail && <EmployeePermissionList employeeId={id} userDetail={detail} role={role} firmId={selectedEmployee?.company?.id} permissionsList={employeePermissions} />}
     </Fragment>
   );
 };
