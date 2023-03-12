@@ -14,8 +14,10 @@ const EmployeeDetail = () => {
   const { id } = useParams();
   const { request } = useHttpClient();
   const dispatch = useDispatch();
-  const { detail, role } = useSelector(state => state.user);
-  const { selectedEmployee, employeePermissions } = useSelector((state) => state.employee);
+  const { detail, role } = useSelector((state) => state.user);
+  const { selectedEmployee, employeePermissions } = useSelector(
+    (state) => state.employee
+  );
   const [infoList, setInfoList] = useState([]);
 
   const getEmployeesDetail = async (id) => {
@@ -28,31 +30,42 @@ const EmployeeDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!!selectedEmployee) setInfoList([
-      {
-        key: 'Employee no',
-        value: testPlaceHolder(selectedEmployee?.employee_no)
-      },
-      {
-        key: 'Name',
-        value: testPlaceHolder(`${selectedEmployee?.first_name} ${selectedEmployee?.last_name}`)
-      },
-      {
-        key: 'Email',
-        value: testPlaceHolder(selectedEmployee?.email)
-      },
-      {
-        key: 'Role',
-        value: testPlaceHolder(selectedEmployee?.role?.name)
-      }
-    ])
-  }, [selectedEmployee])
+    if (!!selectedEmployee)
+      setInfoList([
+        {
+          key: 'Employee no',
+          value: testPlaceHolder(selectedEmployee?.employee_no),
+        },
+        {
+          key: 'Name',
+          value: testPlaceHolder(
+            `${selectedEmployee?.first_name} ${selectedEmployee?.last_name}`
+          ),
+        },
+        {
+          key: 'Email',
+          value: testPlaceHolder(selectedEmployee?.email),
+        },
+        {
+          key: 'Role',
+          value: testPlaceHolder(selectedEmployee?.role?.name),
+        },
+      ]);
+  }, [selectedEmployee]);
 
   return (
     <Fragment>
       <Heading>Employee Detail</Heading>
       <InfoList data={infoList} />
-      {detail && <EmployeePermissionList employeeId={id} userDetail={detail} role={role} firmId={selectedEmployee?.company?.id} permissionsList={employeePermissions} />}
+      {detail && selectedEmployee && (
+        <EmployeePermissionList
+          employeeId={id}
+          userDetail={detail}
+          role={role}
+          firmId={selectedEmployee?.company?.id}
+          permissionsList={employeePermissions}
+        />
+      )}
     </Fragment>
   );
 };

@@ -6,21 +6,32 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export default ({
-  titleText = "Confirmation Required",
+  titleText = 'Confirmation Required',
+  saveText = 'Save',
+  submitType = 'button',
+  submitLoading = 'false',
+  submitHandler = () => {},
   children,
+  type,
   moveForward = () => {},
   show = false,
   setShow,
   ...otherProps
 }) => {
-
   const handleClose = () => {
     setShow(false);
   };
 
   const agree = () => {
-    moveForward()
-    setShow(false);
+    moveForward();
+  };
+
+  const wrapper = (wrapperType, content) => {
+    return wrapperType === 'form' ? (
+      <form onSubmit={submitHandler}>{content}</form>
+    ) : (
+      content
+    );
   };
 
   return (
@@ -29,22 +40,29 @@ export default ({
         open={show}
         onClose={handleClose}
         {...otherProps}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {titleText}
-        </DialogTitle>
-        <DialogContent>
-          {children}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={agree} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
+        {wrapper(
+          type,
+          <React.Fragment>
+            <DialogTitle id="dialog-title">{titleText}</DialogTitle>
+            <DialogContent>{children}</DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button
+                type={submitType}
+                variant="contained"
+                loading={submitLoading}
+                onClick={agree} 
+                autoFocus
+              >
+                {saveText}
+              </Button>
+            </DialogActions>
+          </React.Fragment>
+        )}
       </Dialog>
     </div>
   );
-}
+};

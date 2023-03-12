@@ -76,10 +76,12 @@ const EmployeePermissionList = ({
 
   return (
     <Fragment>
-      {showAddPermission && <AddPermission show={showAddPermission} setShow={setShowAddPermission} />}
+      {showAddPermission && <AddPermission show={showAddPermission} setShow={setShowAddPermission} reloadPermissions={() => getEmployeePermissions(employeeId, firmId)} />}
       <Table
         columns={permissionHeader}
         rows={permissionsList}
+        height={600}
+        pageSize={10}
         title={
           <div className="d-flex justify-content-between align-items-center mt-3">
             <Heading margin="1rem 0 0.4rem">Employee Permissions</Heading>

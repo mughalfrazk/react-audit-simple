@@ -7,7 +7,7 @@ export default ({
   variant,
   color,
   element,
-  loading,
+  loading = false,
   size,
   onClick,
   margin = '0',

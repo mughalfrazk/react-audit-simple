@@ -46,7 +46,7 @@ const ClientList = () => {
   const { request } = useHttpClient();
 
   const getClientsList = async () => {
-    const { data } = await request.get(constants.apis.CLIENT_LIST);
+    const { data } = await request.get(constants.apis.CLIENT_LIST());
     dispatch(setClientsList(data));
   };
 
