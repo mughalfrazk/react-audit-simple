@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Input from '../../../components/Input';
 
-const AddPermissionForm = ({ formik, isLoading, clientList, actionList }) => {
+const AddPermissionForm = ({ formik, clientList, actionList }) => {
   return (
     <Fragment>
       <Input

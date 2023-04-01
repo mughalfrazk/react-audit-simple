@@ -21,7 +21,7 @@ export default ({
         <MenuItem {...otherProps}>{children}</MenuItem>
       ) : element === 'select' ? (
         <FormControl fullWidth={true} sx={{ width, margin, ...sx }}>
-          <InputLabel>{otherProps.label}</InputLabel>
+          <InputLabel error={otherProps.error}>{otherProps.label}</InputLabel>
           <Select fullWidth={true} {...otherProps}>
             <MenuItem value="">{otherProps.label}</MenuItem>
             {children}

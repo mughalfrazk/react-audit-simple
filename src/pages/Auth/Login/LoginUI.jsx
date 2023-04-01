@@ -28,7 +28,7 @@ export default ({ isLoading, formik }) => {
                 </Button>
               </div>
               <Input
-                type="text"
+                type="email"
                 name="email"
                 label="Email Address"
                 value={formik.values.email}

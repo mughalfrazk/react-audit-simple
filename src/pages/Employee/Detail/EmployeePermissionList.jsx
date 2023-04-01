@@ -9,7 +9,7 @@ import Heading from '../../../components/Heading';
 import constants from '../../../constants';
 import { setEmployeePermissions } from '../../../redux/slices/employee-slice';
 import Button from '../../../components/Button';
-import AddPermission from './AddPermission';
+import AddPermissionModal from './AddPermissionModal';
 
 const permissionHeader = [
   // { field: 'id', headerName: 'ID', flex: 1 },
@@ -76,7 +76,7 @@ const EmployeePermissionList = ({
 
   return (
     <Fragment>
-      {showAddPermission && <AddPermission show={showAddPermission} setShow={setShowAddPermission} reloadPermissions={() => getEmployeePermissions(employeeId, firmId)} />}
+      {showAddPermission && <AddPermissionModal show={showAddPermission} setShow={setShowAddPermission} reloadPermissions={() => getEmployeePermissions(employeeId, firmId)} />}
       <Table
         columns={permissionHeader}
         rows={permissionsList}

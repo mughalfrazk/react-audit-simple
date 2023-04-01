@@ -39,9 +39,9 @@ export default ({
       <Dialog
         open={show}
         onClose={handleClose}
-        {...otherProps}
         aria-labelledby="dialog-title"
         aria-describedby="dialog-description"
+        {...otherProps}
       >
         {wrapper(
           type,

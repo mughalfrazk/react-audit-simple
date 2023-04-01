@@ -10,7 +10,7 @@ import useHttpClient from '../../../hooks/http-client';
 import { setActionList } from '../../../redux/slices/firm-slice';
 import { setClientsList } from '../../../redux/slices/client-slice';
 
-const AddPermission = ({ show, setShow, reloadPermissions }) => {
+const AddPermissionModal = ({ show, setShow, reloadPermissions }) => {
   const dispatch = useDispatch();
   const {
     client: { clientList },
@@ -79,4 +79,4 @@ const AddPermission = ({ show, setShow, reloadPermissions }) => {
   );
 };
 
-export default AddPermission;
+export default AddPermissionModal;

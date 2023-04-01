@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import Heading from '../../components/Heading';
 import Table from '../../components/Table';
 import useHttpClient from '../../hooks/http-client';
 import constants from '../../constants';
 import Button from '../../components/Button';
+import AddNewEmployeeModal from './AddNewEmployeeModal';
 import { setEmployeesList } from '../../redux/slices/employee-slice';
 
 const header = [
@@ -51,6 +53,7 @@ const header = [
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
+  const [showNewEmployeeForm, setShowNewEmployeeForm] = useState(false);
   const employees = useSelector((state) => state.employee.employeeList);
 
   const { request } = useHttpClient();
@@ -65,14 +68,26 @@ const EmployeeList = () => {
   }, []);
 
   return (
-    <Table
-      height="800px"
-      columns={header}
-      rows={employees}
-      rowsPerPageOptions={[10]}
-      pageSize={10}
-      title={<Heading>Employees</Heading>}
-    />
+    <Fragment>
+      {showNewEmployeeForm && <AddNewEmployeeModal show={showNewEmployeeForm} setShow={setShowNewEmployeeForm} />}
+      <Table
+        height="800px"
+        columns={header}
+        rows={employees}
+        rowsPerPageOptions={[10]}
+        pageSize={10}
+        title={
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <Heading margin="1rem 0 0.4rem">Employees</Heading>
+            <Button variant="contained" size="small" onClick={() => setShowNewEmployeeForm(true)}>
+              <AddTwoToneIcon />
+              &nbsp;Add new employee&nbsp;&nbsp;
+            </Button>
+          </div>
+        }
+      />
+    </Fragment>
+
   );
 };
 
