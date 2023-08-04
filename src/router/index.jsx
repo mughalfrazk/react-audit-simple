@@ -108,7 +108,7 @@ const AppRouter = () => {
           element: <ForgotPassword />,
         },
         {
-          path: '404',
+          path: constants.urls.NOT_FOUND,
           element: <NotFound />,
         },
       ],

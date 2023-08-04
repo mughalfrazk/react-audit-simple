@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -10,7 +11,13 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FolderIcon from '@mui/icons-material/Folder';
 import Divider from '@mui/material/Divider';
+import AddIcon from '@mui/icons-material/Add';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 import Table from '../Table';
+import { setSelectedFolder } from '../../redux/slices/client-slice';
+import FileInput from '../../pages/Client/Detail/FileInput';
 
 const dummy_folders = [
   {
@@ -54,33 +61,88 @@ const dummy_folders = [
 
 const files_columns = [
   { field: 'name', headerName: 'Name', flex: 1 },
-  { field: 'uploaded_by', headerName: 'Uploaded By', flex: 1 },
-  { field: 'reviewed_by', headerName: 'Reviewed By', flex: 1 },
+  { 
+    field: 'uploaded_by',
+    headerName: 'Uploaded By',
+    flex: 1,
+    valueGetter: (params) => `${params.row?.uploaded_by?.first_name || ''} ${params.row?.uploaded_by?.last_name || ''}`,
+  },
+  { 
+    field: 'reviewed_by',
+    headerName: 'Reviewed By',
+    flex: 1,
+    valueGetter: (params) => `${params.row?.reviewed_by?.first_name || ''} ${params.row?.reviewed_by?.last_name || ''}`,
+  },
   {
     field: 'audit_date',
     headerName: 'Audit Date',
     flex: 1,
+    valueGetter: (params) => `${params.row.audit_date.split("T")[0]}`
   },
   {
     field: 'status',
-    headerName: 'Status',
+    headerName: 'Review Status',
     type: 'number',
     flex: 1,
+    renderCell: (params) => !!params.row.reviewed_by ? <CheckCircleIcon htmlColor='#198754' /> : <CancelIcon htmlColor='#ffc107' />
   },
 ];
 
-const FileManager = ({ folders = dummy_folders }) => {
+const FileManager = ({ folders = dummy_folders, setShowAddFolderModal }) => {
+  const dispatch = useDispatch();
+  const { selectedFolder } = useSelector(state => state.client);
+  
   const [open, setOpen] = useState(0);
-  const [selected, setSelected] = useState(0);
+  const [selectedDocumentParent, setSelectedDocumentParent] = useState(0);
+  const [documentList, setDocumentList] = useState([]);
 
-  const handleClick = (id, action) => {
+  const handleClick = (detail, action) => {
     if (action === 'collapse') {
-      if (open === id) setOpen(0);
-      else setOpen(id);
+      if (open === detail.id) setOpen(0);
+      else setOpen(detail.id);
     }
-    if (selected === id) setSelected(0);
-    else setSelected(id);
+
+    dispatch(setSelectedFolder(detail))
   };
+
+  const addFolderHandler = (parent) => {
+    if (!!parent) dispatch(setSelectedFolder({ id: parent.id, name: parent.name }))
+    else {
+      dispatch(setSelectedFolder({ id: 0, name: "" }))
+      setOpen(0)
+    }
+
+    setShowAddFolderModal(prevState => !prevState)
+  } 
+
+  const findDocumentList = (folders, id) => {
+    for (let i = 0; i < folders.length; i++) {
+      const folder = folders[i];
+
+      if (folder.id === id) {
+        return folder
+      } else {
+        for (let j = 0; j < folder.children.length; j++) {
+          const subFolder = folder.children[j];
+          if (subFolder.id === id) {
+            return subFolder
+          }
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (!!selectedFolder.id && selectedFolder.id !== selectedDocumentParent) {
+      setDocumentList(() => {
+        const detail = findDocumentList(folders, selectedFolder.id)
+        setSelectedDocumentParent(detail.id)
+        return [ ...detail.documents ]
+      })
+    } else {
+      setDocumentList([])
+    }
+  }, [selectedFolder.id])
 
   return (
     <div className="card">
@@ -106,8 +168,8 @@ const FileManager = ({ folders = dummy_folders }) => {
             {folders.map((item) => (
               <Fragment key={item.id}>
                 <ListItemButton
-                  onClick={() => handleClick(item.id, 'collapse')}
-                  selected={selected === item.id}
+                  onClick={() => handleClick({ id: item.id, name: item.name, level_no: item.level_no }, 'collapse')}
+                  selected={selectedFolder.id === item.id}
                 >
                   <ListItemIcon>
                     <FolderIcon />
@@ -121,8 +183,8 @@ const FileManager = ({ folders = dummy_folders }) => {
                     {item.children.map((subItem) => (
                       <ListItemButton
                         key={subItem.id}
-                        onClick={() => handleClick(subItem.id)}
-                        selected={selected === subItem.id}
+                        onClick={() => handleClick({ id: subItem.id, name: subItem.name, level_no: item.level_no })}
+                        selected={selectedFolder.id === subItem.id}
                         sx={{ pl: 4 }}
                       >
                         <ListItemIcon>
@@ -131,18 +193,36 @@ const FileManager = ({ folders = dummy_folders }) => {
                         <ListItemText primary={subItem.name} />
                       </ListItemButton>
                     ))}
+                    <ListItemButton
+                      onClick={() => addFolderHandler(item)}
+                      sx={{ pl: 4 }}
+                    >
+                      <ListItemIcon>
+                        <AddIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Add Folder" />
+                    </ListItemButton>
                   </List>
                 </Collapse>
               </Fragment>
             ))}
+              <ListItemButton
+                onClick={() => addFolderHandler(null)}
+              >
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText primary="Add Folder" />
+              </ListItemButton>
           </List>
         </Box>
-        <Box className="col-8 col-sm-9 col-md-10 ps-0" sx={{ height: '650px' }}>
+        <Box className="col-8 col-sm-9 col-md-10 ps-0" sx={{ height: '100%' }}>
+          <div className='px-3 pb-1'><FileInput /></div>
           <Table
             columns={files_columns}
-            rows={[]}
+            rows={documentList}
             border={0}
-            height="640px"
+            height="800px"
             backgroundColor="transparent"
           />
         </Box>

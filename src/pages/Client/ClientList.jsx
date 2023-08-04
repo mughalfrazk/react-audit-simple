@@ -14,13 +14,13 @@ const header = [
     field: 'name',
     headerName: 'Name',
     flex: 1,
-    valueGetter: (params) => params.row?.client?.name,
+    valueGetter: (params) => params.row?.name,
   },
   {
     field: 'abbreviation',
     headerName: 'Abbreviation',
     flex: 1,
-    valueGetter: (params) => params.row?.client?.abbreviation,
+    valueGetter: (params) => params.row?.abbreviation,
   },
   {
     field: 'id',
@@ -30,7 +30,7 @@ const header = [
     renderCell: (params) => (
       <Button
         element="nav-link"
-        to={constants.urls.CLIENT_DETAIL(params.row?.client?.id)}
+        to={constants.urls.CLIENT_DETAIL(params.row?.id)}
         variant="primary"
       >
         <VisibilityIcon color="grey" />

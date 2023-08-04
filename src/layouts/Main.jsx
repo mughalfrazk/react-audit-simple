@@ -14,7 +14,7 @@ const Main = () => {
       <CssBaseline />
       <Header />
       <Sidebar />
-      <Box component="main" bgcolor={'#f6f8fb'} sx={{ flexGrow: 1, p: 3, height: '100vh' }}>
+      <Box component="main" bgcolor={'#f6f8fb'} sx={{ flexGrow: 1, p: 3, height: '100%' }}>
         <DrawerHeader />
         <Outlet />
       </Box>

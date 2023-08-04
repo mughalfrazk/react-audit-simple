@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography, CircularProgress } from '@mui/material';
+import { Button, Typography, CircularProgress, IconButton  } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 
 export default ({
@@ -13,6 +13,7 @@ export default ({
   margin = '0',
   padding = '8px 10px',
   sx,
+  disabled,
   ...otherProps
 }) => {
   return (
@@ -29,10 +30,22 @@ export default ({
             {children}
           </Typography>
         </NavLink>
+      ) : element === 'icon' ? (
+        <IconButton 
+          disabled={loading}
+          variant={variant}
+          color={color}
+          size={"small"}
+          onClick={onClick}
+          sx={{ padding, margin, ...sx }}
+          {...otherProps}
+        >
+          {loading ? <CircularProgress color='white' size={25} /> : children}
+        </IconButton>
       ) : (
         <Button
           fullWidth
-          disabled={loading}
+          disabled={disabled || loading}
           variant={variant}
           color={color}
           size={size}

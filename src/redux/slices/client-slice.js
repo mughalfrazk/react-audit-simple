@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   clientList: [],
   selectedClient: null,
-  folders: []
+  folders: [],
+  selectedFolder: {
+    id: 0,
+    name: ""
+  },
 }
 
 export const clientSlice = createSlice({
@@ -18,11 +22,15 @@ export const clientSlice = createSlice({
     },
     setFolders: (state, { payload }) => {
       state.folders = payload
-    }
+    },
+    setSelectedFolder: (state, { payload }) => {
+      state.selectedFolder.id = payload.id
+      state.selectedFolder.name = payload.name
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setClientsList, setClientDetail, setFolders } = clientSlice.actions
+export const { setClientsList, setClientDetail, setFolders, setSelectedFolder } = clientSlice.actions
 
 export default clientSlice.reducer

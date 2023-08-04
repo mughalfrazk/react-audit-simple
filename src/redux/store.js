@@ -12,6 +12,6 @@ export const store = configureStore({
     user: userSlice,
     firm: firmSlice,
     client: clientSlice,
-    employee: employeeSlice,
+    employee: employeeSlice
   },
 })

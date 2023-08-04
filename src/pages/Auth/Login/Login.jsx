@@ -36,7 +36,8 @@ export default () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit
+    onSubmit,
+    validateOnChange: false
   })
 
   return <Fragment>
