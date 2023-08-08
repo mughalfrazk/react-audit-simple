@@ -13,6 +13,9 @@ export const employeeSlice = createSlice({
     setEmployeesList: (state, { payload }) => {
       state.employeeList = payload
     },
+    updateEmployeeList: (state, { payload }) => {
+      state.employeeList = [ ...state.employeeList, payload ]
+    },
     setEmployeeDetail: (state, { payload }) => {
       state.selectedEmployee = payload
     },
@@ -23,6 +26,6 @@ export const employeeSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setEmployeesList, setEmployeeDetail, setEmployeePermissions } = employeeSlice.actions
+export const { setEmployeesList, updateEmployeeList, setEmployeeDetail, setEmployeePermissions } = employeeSlice.actions
 
 export default employeeSlice.reducer

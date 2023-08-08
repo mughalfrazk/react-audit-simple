@@ -44,7 +44,7 @@ const closeBtn = {
   zIndex: 10,
 };
 
-const FileInput = () => {
+const FileInput = ({ getClientFolders }) => {
   const { isLoading, request } = useHttpClient();
   const { selectedClient, selectedFolder } = useSelector((state) => state.client);
   
@@ -73,8 +73,9 @@ const FileInput = () => {
     postBody.append("client", selectedClient.id);
 
     try {
-      const { data } = await request.post(constants.apis.CREATE_DOCUMENT, postBody);
-      console.log(data)
+      await request.post(constants.apis.CREATE_DOCUMENT, postBody);
+      setFiles([])
+      getClientFolders();
     } catch (error) {
       console.log(error)
     }
@@ -123,10 +124,6 @@ const FileInput = () => {
       </p>
     </div>
   ));
-
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount

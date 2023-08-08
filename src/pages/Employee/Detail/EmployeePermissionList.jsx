@@ -1,27 +1,27 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 
-import useHttpClient from '../../../hooks/http-client';
-import Table from '../../../components/Table';
-import Heading from '../../../components/Heading';
-import constants from '../../../constants';
-import { setEmployeePermissions } from '../../../redux/slices/employee-slice';
-import Button from '../../../components/Button';
-import AddPermissionModal from './AddPermissionModal';
+import useHttpClient from "../../../hooks/http-client";
+import Table from "../../../components/Table";
+import Heading from "../../../components/Heading";
+import constants from "../../../constants";
+import { setEmployeePermissions } from "../../../redux/slices/employee-slice";
+import Button from "../../../components/Button";
+import AddPermissionModal from "./AddPermissionModal";
 
 const permissionHeader = [
   // { field: 'id', headerName: 'ID', flex: 1 },
   {
-    field: 'client',
-    headerName: 'Client',
+    field: "client",
+    headerName: "Client",
     flex: 1,
     valueGetter: (params) => params.row?.company?.name,
   },
   {
-    field: 'action',
-    headerName: 'Action',
+    field: "action",
+    headerName: "Action",
     flex: 1,
     renderCell: (params) => (
       <div>
@@ -33,9 +33,9 @@ const permissionHeader = [
     ),
   },
   {
-    field: 'id',
-    headerName: 'Action',
-    type: 'number',
+    field: "id",
+    headerName: "Action",
+    type: "number",
     flex: 1,
     renderCell: (params) => (
       <Button
@@ -56,8 +56,9 @@ const EmployeePermissionList = ({
   permissionsList,
 }) => {
   const dispatch = useDispatch();
-  const [showAddPermission, setShowAddPermission] = useState(false);
   const { request } = useHttpClient();
+
+  const [showAddPermission, setShowAddPermission] = useState(false);
 
   const getEmployeePermissions = async (id, firm) => {
     const { data } = await request.get(
@@ -76,7 +77,13 @@ const EmployeePermissionList = ({
 
   return (
     <Fragment>
-      {showAddPermission && <AddPermissionModal show={showAddPermission} setShow={setShowAddPermission} reloadPermissions={() => getEmployeePermissions(employeeId, firmId)} />}
+      {!role?.isEmployee && showAddPermission && (
+        <AddPermissionModal
+          show={showAddPermission}
+          setShow={setShowAddPermission}
+          reloadPermissions={() => getEmployeePermissions(employeeId, firmId)}
+        />
+      )}
       <Table
         columns={permissionHeader}
         rows={permissionsList}
@@ -85,10 +92,16 @@ const EmployeePermissionList = ({
         title={
           <div className="d-flex justify-content-between align-items-center mt-3">
             <Heading margin="1rem 0 0.4rem">Employee Permissions</Heading>
-            <Button variant="contained" size="small" onClick={() => setShowAddPermission(true)}>
-              <AddTwoToneIcon />
-              &nbsp;Add new permission&nbsp;&nbsp;
-            </Button>
+            {!role?.isEmployee && (
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() => setShowAddPermission(true)}
+              >
+                <AddTwoToneIcon />
+                &nbsp;Add new permission&nbsp;&nbsp;
+              </Button>
+            )}
           </div>
         }
       />

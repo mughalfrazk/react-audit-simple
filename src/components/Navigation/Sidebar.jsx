@@ -98,7 +98,7 @@ const Sidebar = ({ navlinks }) => {
                 </ListItemButton>
               );
 
-              return (!link?.role || link?.role === userDetail?.role?.identifier) && (link?.children ? (
+              return (!link?.role || link?.role.includes(userDetail?.role?.identifier)) && (link?.children ? (
                 listItemButton
               ) : (
                 <NavLink to={link.path} exact="true">

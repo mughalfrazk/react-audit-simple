@@ -5,33 +5,34 @@ import * as yup from 'yup';
 
 import Dialog from '../../../components/Dialog';
 import useHttpClient from '../../../hooks/http-client';
-import AddFolderForm from './AddFolderForm';
+import AddFirmForm from './AddFirmForm';
 import constants from '../../../constants';
 
-const AddFolderModal = ({ show, setShow, getClientFolders }) => {
-  const { selectedClient, selectedFolder } = useSelector((state) => state.client);
-
+const AddFirmModal = ({ show, setShow }) => {
   const { isLoading, request } = useHttpClient();
 
   const initialValues = {
-    name: '',
-    client: selectedClient?.id,
-    parent: selectedFolder?.id,
+    company_type_id: 1,
+    name: "",
+    abbreviation: "",
+    email: "",
+    password: ""
   };
 
   const validationSchema = yup.object({
+    company_type_id: yup.number().required(),
     name: yup.string().required('Name is required'),
-    client: yup.string().required()
+    abbreviation: yup.string(),
+    email: yup.string().required('Email is required'),
+    password: yup.string().required('Password is required')
   });
 
   const onSubmit = async (values) => {
     console.log(values)
-    if (!values.parent) delete values.parent;
 
     try {
-      await request.post(constants.apis.CREATE_FOLDER, values)
+      await request.post(constants.apis.CREATE_COMPANY, values)
       setShow(false)
-      getClientFolders()
     } catch (error) {
       console.log(error)
     }
@@ -46,7 +47,7 @@ const AddFolderModal = ({ show, setShow, getClientFolders }) => {
   });
 
   return <Dialog
-    titleText="Add Folder"
+    titleText="Add Firm"
     type="form"
     show={show}
     setShow={setShow}
@@ -55,8 +56,8 @@ const AddFolderModal = ({ show, setShow, getClientFolders }) => {
     submitHandler={formik.handleSubmit}
     submitLoading={isLoading ? "yes" : "no"}
   >
-    <AddFolderForm isLoading={isLoading} formik={formik} />
+    <AddFirmForm isLoading={isLoading} formik={formik} />
   </Dialog>;
 }
 
-export default AddFolderModal;
+export default AddFirmModal;

@@ -5,6 +5,9 @@ export const apis = {
   FIRM_LIST: "company",
   FIRM_DETAIL: (id) => !!id ? `company/detail?firm=${id}` : 'company/detail',
 
+  CREATE_COMPANY: "company", // Firm & Client
+
+  CREATE_EMPLOYEE: "auth/signup",
   EMPLOYEE_LIST: (id) => !!id ? `employee?firm=${id}` : 'employee',
   EMPLOYEE_DETAIL: (id) => `employee/${id}`,
 
@@ -13,6 +16,9 @@ export const apis = {
   CLIENT_FOLDERS: (id, level) => `folder?client=${id}&level=${level}`,
   CLIENT_ASSIGNMENT_LIST: (employee, firm) => `client-assignment?${!!employee ? `employee=${employee}` : ''}${(!!employee && !!firm) ? "&" : ""}${!!firm ? `firm=${firm}` : ""}`,
   CREATE_CLIENT_ASSIGNMENT: 'client-assignment',
+
+  GET_DOCUMENT: (id) => `document/${id}`,
+  UPDATE_DOCUMENT: (id) => `document/${id}`,
 
   ACTION_LIST: "action",
   CREATE_DOCUMENT: "document",

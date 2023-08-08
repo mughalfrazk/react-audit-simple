@@ -47,15 +47,20 @@ const AddPermissionModal = ({ show, setShow, reloadPermissions }) => {
   });
 
   const onSubmit = async (values) => {
-    await request.post(constants.apis.CREATE_CLIENT_ASSIGNMENT, values);
-    setShow(false)
-    reloadPermissions();
+    try {
+      await request.post(constants.apis.CREATE_CLIENT_ASSIGNMENT, values);
+      setShow(false)
+      reloadPermissions();
+    } catch (error) {
+      console.log(error)      
+    }
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
+    validateOnChange: false
   });
 
   return (
@@ -67,7 +72,7 @@ const AddPermissionModal = ({ show, setShow, reloadPermissions }) => {
       fullWidth={true}
       submitType="submit"
       submitHandler={formik.handleSubmit}
-      submitLoading={`${isLoading}`}
+      submitLoading={isLoading ? "yes" : "no"}
     >
       <AddPermissionForm
         isLoading={isLoading}

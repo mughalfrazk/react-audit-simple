@@ -1,16 +1,14 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import useHttpClient from '../../../hooks/http-client';
 import constants from '../../../constants';
 import { setClientDetail, setFolders } from '../../../redux/slices/client-slice';
-import FileManager from '../../../components/FileManager';
+import FileManager from './FileManager';
 import Heading from '../../../components/Heading';
 import InfoList from '../../../components/InfoList/InfoList';
 import { testPlaceHolder } from '../../../services/utils/functions';
-import FileInput from './FileInput';
 import { setSelectedFolder } from '../../../redux/slices/client-slice';
 import AddFolderModal from './AddFolderModal';
 
@@ -36,8 +34,8 @@ export default () => {
   }
 
   useEffect(() => {
-    getFirmDetail(id);
-    getClientFolders(id);
+    getFirmDetail();
+    getClientFolders();
   }, []);
 
   useEffect(() => {
@@ -59,7 +57,7 @@ export default () => {
       <Heading>Client Detail</Heading>
       {infoList && <InfoList data={infoList} />}
       <Heading padding='1rem 0 0 0'>File Manager</Heading>
-      {folders && <FileManager folders={folders} setShowAddFolderModal={setShowAddFolder} />}
+      {folders && <FileManager folders={folders} setShowAddFolderModal={setShowAddFolder} getClientFolders={getClientFolders} />}
     </Fragment>
   );
 };

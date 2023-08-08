@@ -1,37 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import Dialog from '../../../components/Dialog';
 import useHttpClient from '../../../hooks/http-client';
-import AddFolderForm from './AddFolderForm';
+import UpdateDateForm from './UpdateDateForm';
 import constants from '../../../constants';
 
-const AddFolderModal = ({ show, setShow, getClientFolders }) => {
-  const { selectedClient, selectedFolder } = useSelector((state) => state.client);
-
+const UpdateDateModal = ({ show, setShow, selectedAuditDate, selectedDocument }) => {
   const { isLoading, request } = useHttpClient();
+  const { selectedClient } = useSelector((state) => state.client);
 
   const initialValues = {
-    name: '',
-    client: selectedClient?.id,
-    parent: selectedFolder?.id,
+    client: selectedClient.id,
+    audit_date: selectedAuditDate
   };
 
   const validationSchema = yup.object({
-    name: yup.string().required('Name is required'),
-    client: yup.string().required()
+    client: yup.number().required(),
+    audit_date: yup.string().required('Date is required'),
   });
 
   const onSubmit = async (values) => {
     console.log(values)
-    if (!values.parent) delete values.parent;
 
     try {
-      await request.post(constants.apis.CREATE_FOLDER, values)
+      await request.patch(constants.apis.UPDATE_DOCUMENT(selectedDocument), values)
       setShow(false)
-      getClientFolders()
     } catch (error) {
       console.log(error)
     }
@@ -41,12 +37,11 @@ const AddFolderModal = ({ show, setShow, getClientFolders }) => {
     initialValues,
     validationSchema,
     onSubmit,
-    validateOnBlur: false,
-    validateOnMount: false
+    validateOnChange: false,
   });
 
   return <Dialog
-    titleText="Add Folder"
+    titleText="Add Client"
     type="form"
     show={show}
     setShow={setShow}
@@ -55,8 +50,8 @@ const AddFolderModal = ({ show, setShow, getClientFolders }) => {
     submitHandler={formik.handleSubmit}
     submitLoading={isLoading ? "yes" : "no"}
   >
-    <AddFolderForm isLoading={isLoading} formik={formik} />
+    <UpdateDateForm formik={formik} />
   </Dialog>;
 }
 
-export default AddFolderModal;
+export default UpdateDateModal;

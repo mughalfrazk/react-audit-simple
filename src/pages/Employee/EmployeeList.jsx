@@ -21,7 +21,7 @@ const header = [
     field: 'name',
     headerName: 'Name',
     flex: 1,
-    valueGetter: (params) => `${params.row?.first_name} ${params.row?.last_name}`,
+    valueGetter: (params) => `${params.row?.first_name || ""} ${params.row?.last_name || ""}`,
   },
   {
     field: 'email',

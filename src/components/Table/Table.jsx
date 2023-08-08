@@ -41,7 +41,7 @@ export default ({
   height = 400,
   width = '100%',
   pageSize = 5,
-  rowsPerPageOptions = [5],
+  rowsPerPageOptions = [10],
   columns = d_columns,
   rows = d_rows,
   title,

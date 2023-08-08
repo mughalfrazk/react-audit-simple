@@ -1,15 +1,16 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import Button from '../Button';
+
 export default ({
   titleText = 'Confirmation Required',
   saveText = 'Save',
   submitType = 'button',
-  submitLoading = 'false',
+  submitLoading = false,
   submitHandler = () => {},
   children,
   type,
@@ -53,7 +54,7 @@ export default ({
               <Button
                 type={submitType}
                 variant="contained"
-                loading={submitLoading}
+                loading={submitLoading === "yes" ? true : false}
                 onClick={agree} 
                 autoFocus
               >

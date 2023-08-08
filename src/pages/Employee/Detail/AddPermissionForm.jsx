@@ -16,10 +16,10 @@ const AddPermissionForm = ({ formik, clientList, actionList }) => {
         {clientList.map((item) => (
           <Input
             element="option"
-            key={item?.client?.id}
-            value={item?.client?.id}
+            key={item?.id}
+            value={item?.id}
           >
-            {item?.client?.name}
+            {item?.name}
           </Input>
         ))}
       </Input>

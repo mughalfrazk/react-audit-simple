@@ -58,7 +58,8 @@ const AddNewEmployeeForm = ({ formik }) => {
         error={Boolean(formik.errors.role_id)}
         helperText={formik.errors.role_id}
       >
-        <Input element="option" key={1} value={1}>Admin</Input>
+        <Input element="option" key={2} value={2}>Admin</Input>
+        <Input element="option" key={3} value={3}>Employee</Input>
       </Input>
     </div>
   </div>

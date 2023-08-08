@@ -37,7 +37,7 @@ export default ({
           color={color}
           size={"small"}
           onClick={onClick}
-          sx={{ padding, margin, ...sx }}
+          sx={{ ...sx }}
           {...otherProps}
         >
           {loading ? <CircularProgress color='white' size={25} /> : children}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const EmployeeDetail = () => {
   const { id } = useParams();
   const { request } = useHttpClient();
   const dispatch = useDispatch();
-  const { detail, role } = useSelector((state) => state.user);
+  const { role } = useSelector((state) => state.user);
   const { selectedEmployee, employeePermissions } = useSelector(
     (state) => state.employee
   );
@@ -24,6 +24,15 @@ const EmployeeDetail = () => {
     const { data } = await request.get(constants.apis.EMPLOYEE_DETAIL(id));
     dispatch(setEmployeeDetail(data));
   };
+
+  const employeePermissionComponent = useMemo(() => (!!selectedEmployee && selectedEmployee.role.identifier === constants.roles.EMPLOYEE) && (
+    <EmployeePermissionList
+      employeeId={id}
+      role={role}
+      firmId={selectedEmployee?.company?.id}
+      permissionsList={employeePermissions}
+    />
+  ), [selectedEmployee, employeePermissions])
 
   useEffect(() => {
     id && getEmployeesDetail(id);
@@ -57,15 +66,7 @@ const EmployeeDetail = () => {
     <Fragment>
       <Heading>Employee Detail</Heading>
       <InfoList data={infoList} />
-      {detail && selectedEmployee && (
-        <EmployeePermissionList
-          employeeId={id}
-          userDetail={detail}
-          role={role}
-          firmId={selectedEmployee?.company?.id}
-          permissionsList={employeePermissions}
-        />
-      )}
+      {employeePermissionComponent}
     </Fragment>
   );
 };

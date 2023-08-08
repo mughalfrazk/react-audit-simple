@@ -18,19 +18,19 @@ const Navlinks = (Sidebar) => () => {
       name: 'Firm',
       icon: <BusinessCenterIcon />,
       path: constants.urls.FIRMS,
-      role: 'super_admin'
+      role: [constants.roles.SUPER_ADMIN]
     },
     {
       name: 'Clients',
       icon: <BusinessCenterIcon />,
       path: constants.urls.CLIENTS,
-      role: 'admin'
+      role: [constants.roles.ADMIN, constants.roles.EMPLOYEE]
     },
     {
       name: 'Employees',
       icon: <PeopleIcon />,
       path: constants.urls.EMPLOYEES,
-      role: 'admin'
+      role: [constants.roles.ADMIN]
     },
     // {
     //   name: 'Roles',
